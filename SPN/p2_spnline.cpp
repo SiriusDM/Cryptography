@@ -21,7 +21,7 @@ struct L24cnt  //用于记录 对于一对候选子密钥K2，K4 的 Count 从�
     {
         return cnt > b.cnt;
     }
-};
+}L24[256];
 
 struct L13cnt  //用于记录 对于一对候选子密钥K1，K3 的 Count 从高到低 的
                //K1,K3，和Count值
@@ -32,7 +32,7 @@ struct L13cnt  //用于记录 对于一对候选子密钥K1，K3 的 Count 从�
     {
         return cnt > b.cnt;
     }
-};
+}L13[256];
 
 // cnt\cnt3:分别记录对应K2,K4两条链的Conunt
 // cnt1\cnt2:K1,K3两条链的Count
@@ -71,6 +71,7 @@ int main()
     for (int i = 0; i < 65536; i++) sb1[i] = sbox(i);  // S盒打表
     for (int i = 0; i < 65536; i++) pb1[i] = pbox(i);  // P盒打表
 
+    printf("%04x %04x\n",spn(0x48ff7a43,0),spn(0x48ff7a43,1));
     scanf("%d", &n);
 
     L13cnt L13[256];
@@ -214,7 +215,7 @@ int main()
                     if (spn(kk, x_[1]) == y_[1] && spn(kk, x_[2]) == y_[2]) {
                         printf("%08x\n", kk);
                         ppp = 1;
-                        break;
+                      	break;
                     }
                 }
             }
