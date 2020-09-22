@@ -1,4 +1,7 @@
 gmp-6.2.0/
+GmSSL-master/
+*.pdf
+*.zip
 *.out
 *.in
 *.exe
