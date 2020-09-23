@@ -5,7 +5,7 @@
 
 using namespace std;
 
-mpz_t qpow(mpz_t base, mpz_t power) {
+void qpow(mpz_t base, mpz_t power, mpz_t n) {
     mpz_t result,rop,power1;
     mpz_init_set_ui(result,1);
     mpz_init_set_ui(power1,1);
@@ -13,12 +13,14 @@ mpz_t qpow(mpz_t base, mpz_t power) {
         mpz_ior(rop,power,power1);
         if (mpz_cmp_ui(rop,1) == 0) {//此处等价于if(power%2==1)
             mpz_mul(result,result,base);
-            mpz_mod(result,result,);
+            mpz_mod(result,result,n);
         }
-        power >>= 1;//此处等价于power=power/2
-        base = (base * base) % 1000;
+        mpz_cdiv_q_ui(power, power, 2);//此处等价于power=power/2
+        mpz_mul(base,base,base);
+        mpz_mod(base,base,n);
     }
-    return result;
+    gmp_printf("%Zd\n",result);
+}   
 
 
 int main() {
@@ -35,6 +37,9 @@ int main() {
         gmp_scanf("%Zd",a);
         gmp_scanf("%Zd",p);
         gmp_scanf("%Zd",q);
+        mpz_mul(n,p,q);
+        qpow(a,e,n);
+    //    gmp_printf("%Zd\n",qpow(a,e,n));
     }
     return 0;
 }
