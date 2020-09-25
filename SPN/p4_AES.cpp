@@ -149,65 +149,6 @@ void mixColumns()
 //#define USE_FILE
 int main()
 {
-#ifdef USE_FILE
-	FILE* f,*f_;
-	unsigned char l;
-	f=fopen("spn4.in","rb");
-	f_=fopen("spn4.out","wb");
-	for(int i=0;i<4;i++)
-	{
-		w[i]=0;
-		for(int j=0;j<4;j++)
-		{
-			fread(&l,1,1,f);
-			w[i]<<=8;
-			w[i]|=l;
-		}
-	}
-	cal_key();
-	/*for(int i=0;i<=43;i++)
-	{
-		printf("w[%d]=%x\n",i,w[i]);
-	}*/
-	memset(oup,0,sizeof(oup));
-	while(num--)
-	{
-		fread(inp,1,16,f);
-		for(int j=0;j<4;j++)
-		{
-			for(int i=0;i<4;i++)
-			{
-				state[i][j]=inp[4*j+i];
-				state[i][j]^=oup[4*j+i];
-			}
-		}
-		//print();
-		Addroundkey(0);
-		//print();
-		for(int i=1;i<=Nr-1;i++)
-		{
-			Subbytes();
-			//print();
-			Shiftrows();
-			//print();
-			mixColumns();
-			Addroundkey(i);
-		}
-		Subbytes();
-		Shiftrows();
-		Addroundkey(Nr);
-		//print();
-		for(int j=0;j<4;j++)
-		{
-			for(int i=0;i<4;i++)
-			{
-				l=state[i][j];
-				oup[4*j+i]=l;
-				fwrite(&l,1,1,f_);
-			}
-		}
-	}
-#else
 	unsigned char l;
 	for(int i=0;i<4;i++)
 	{
@@ -256,6 +197,5 @@ int main()
 			}
 		}
 	}
-#endif
 	return 0;
 }
