@@ -12,42 +12,11 @@ mpz_t g[1030];
 int e1[1030],e2[1030];
 int K = (1<<k);
 
-void exgcd(mpz_t a,mpz_t b,mpz_t &x,mpz_t &y,mpz_t mod)
-{
-	if(mpz_cmp_ui(b,0)==0)
-	{
-		mpz_set_ui(x,1);
-		mpz_set_ui(y,0);
-		return;
-	}
-	else
-	{
-		mpz_t t3,t4,t5;
-		mpz_init(t3);
-		mpz_init(t4);
-		mpz_init(t5);
-		mpz_set(t3,b);
-		mpz_mod(t4,a,b);
-		exgcd(t3,t4,x,y,mod);
-		mpz_set(t5,x);
-		mpz_set(x,y);
-		mpz_fdiv_q(t4,a,b);
-		mpz_mul(y,t4,y);
-		mpz_sub(y,t5,y);
-		mpz_fdiv_r(x,x,mod);
-		mpz_fdiv_r(y,y,mod);
-		mpz_clear(t3);
-		mpz_clear(t4);
-		mpz_clear(t5);
-		return;
-	}
-}
-
-void qpow1(mpz_t base, mpz_t power, mpz_t n) {
+void qpow1(mpz_t ra1, mpz_t base, mpz_t power, mpz_t n) {
     mpz_t result,rop,power1;
     mpz_init(result);
     mpz_init(rop);
-    mpz_init(power1);
+      mpz_init(power1);
     mpz_init_set_ui(result,1);
     mpz_init_set_ui(power1,1);
     while (mpz_cmp_ui(power,0) > 0) {
@@ -61,33 +30,29 @@ void qpow1(mpz_t base, mpz_t power, mpz_t n) {
         mpz_mod(base,base,n);
 
     }
+    mpz_set(ra1,result);
 } 
 void qpow_1(mpz_t ra1, mpz_t base, mpz_t power, mpz_t n) {
-    mpz_t result,rop11re; 
+    mpz_t result,rop11; 
     mpz_init_set_ui(result,1);
+    mpz_init_set_ui(rop11,K);
     for (int i=t1-1; i>=0; i--) {
-    //    qpow1(result1,result,rop11,n);
         mpz_powm_ui(result,result,K,n);
         mpz_mul(result,result,g[e1[i]]);
         mpz_mod(result,result,n);
     }
     mpz_set(ra1,result);
-    mpz_clear(result);
 }   
 void qpow_2(mpz_t ra1, mpz_t base, mpz_t power, mpz_t n) {
     mpz_t result,rop11;
     mpz_init_set_ui(result,1);
     mpz_init_set_ui(rop11,K);
     for (int i=t2-1; i>=0; i--) {
-        qpow1(result,result,rop11,n);
-
-     //   mpz_powm_ui(result,result,K,n);
+        mpz_powm_ui(result,result,K,n);
         mpz_mul(result,result,g[e2[i]]);
         mpz_mod(result,result,n);
     }
     mpz_set(ra1,result);
-    mpz_clear(result);
-    mpz_clear(rop11);
 }   
 
 
